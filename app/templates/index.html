@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Market Monitor</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Arial; margin: 24px; }
+    table { border-collapse: collapse; width: 560px; margin-top: 12px; }
+    td, th { border: 1px solid #ddd; padding: 10px; }
+    th { text-align: left; background: #f7f7f7; }
+    .muted { color: #777; }
+  </style>
+</head>
+<body>
+  <h2>Market Monitor</h2>
+  <div class="muted">As of: <span id="asof">{{ asof }}</span></div>
+
+  <table>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>IWV % change</td><td id="iwv">—</td></tr>
+    <tr><td>VIX</td><td id="vix">—</td></tr>
+    <tr><td>T2104</td><td id="t2104">—</td></tr>
+    <tr><td>T2117</td><td id="t2117">—</td></tr>
+    <tr><td>HH / LL</td><td id="hhll">—</td></tr>
+    <tr><td>20Bull / 20Bear</td><td id="bullbear">—</td></tr>
+    <tr><td>STMU / STMD</td><td id="stmu_stmd">—</td></tr>
+    <tr><td>Long NY</td><td id="longny">—</td></tr>
+  </table>
+
+<script>
+async function refresh() {
+  const r = await fetch("/api/monitor");
+  const d = await r.json();
+
+  document.getElementById("asof").textContent = d.asof;
+
+  const show = (x) => (x === null || x === undefined) ? "—" : x;
+  document.getElementById("iwv").textContent = show(d.iwv_pct);
+  document.getElementById("vix").textContent = show(d.vix);
+  document.getElementById("t2104").textContent = show(d.t2104);
+  document.getElementById("t2117").textContent = show(d.t2117);
+  document.getElementById("hhll").textContent = show(d.hh_ll);
+  document.getElementById("bullbear").textContent = show(d.bull20) + " / " + show(d.bear20);
+  document.getElementById("stmu_stmd").textContent = show(d.stmu) + " / " + show(d.stmd);
+  document.getElementById("longny").textContent = show(d.long_ny);
+}
+refresh();
+setInterval(refresh, 60000);
+</script>
+
+</body>
+</html>
