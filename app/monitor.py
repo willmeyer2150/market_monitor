@@ -88,6 +88,17 @@ def state_iwv_pct(pct: Optional[float]) -> str:
 
     return "red"
 
+# -----------------------
+#  hh_ll state logic
+# -----------------------
+def state_hh_ll(hh_ll: Optional[float]) -> str:
+    if hh_ll is None:
+        return "gray"
+    if hh_ll >= 100:
+        return "green"
+    if hh_ll <= -100:
+        return "red"
+    return "yellow"
 
 # -----------------------
 #  State Aggregation
@@ -109,10 +120,10 @@ def state_iwv_pct(pct: Optional[float]) -> str:
 #   to color rows generically without knowing logic details.
 def compute_states(
         iwv_pct: Optional[float],
-        vix: Optional[float]
-) -> Dict[str, str]:
-
+        vix: Optional[float],
+        hh_ll: Optional[float] = None) -> Dict[str, str]:
     return {
         "iwv": state_iwv_pct(iwv_pct),
         "vix": state_vix(vix),
+        "hhll": state_hh_ll(hh_ll),
     }
