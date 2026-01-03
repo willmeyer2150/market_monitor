@@ -42,7 +42,8 @@ from monitor import compute_states
 #   and returns a PullResult object (value + error info)
 from data_sources import (
     fetch_vix_close_fred,
-    fetch_iwv_pct_change_stooq
+    fetch_iwv_pct_change_stooq,
+    fetch_nyse_hh_ll_tv
 )
 
 
@@ -100,6 +101,7 @@ def api_monitor():
     #   .error  -> error message if something failed
     vix_res = fetch_vix_close_fred()
     iwv_res = fetch_iwv_pct_change_stooq()
+    hhll_res = fetch_nyse_hh_ll_tv()
 
 
     # --------------------------------
@@ -113,7 +115,8 @@ def api_monitor():
     #   { "iwv": "yellow", "vix": "green" }
     states = compute_states(
         iwv_res.value,
-        vix_res.value
+        vix_res.value,
+        hhll_res.value
     )
 
 
@@ -136,6 +139,7 @@ def api_monitor():
         # -----------------------------
         "iwv_pct": iwv_res.value,
         "vix": vix_res.value,
+        "hh_ll": hhll_res.value,
 
         # -----------------------------
         # Future Phase 1 Placeholders
@@ -144,7 +148,6 @@ def api_monitor():
         # We will layer them in gradually.
         "t2104": None,
         "t2117": None,
-        "hh_ll": None,
         "bull20": None,
         "bear20": None,
         "stmu": None,
@@ -163,7 +166,8 @@ def api_monitor():
         # Can be removed later without breaking anything.
         "errors": {
             "iwv": iwv_res.error,
-            "vix": vix_res.error
+            "vix": vix_res.error,
+            "hhll": hhll_res.error,
         }
     })
 

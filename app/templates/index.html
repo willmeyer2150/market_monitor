@@ -27,7 +27,7 @@
     <tr id="row-vix"><td>VIX</td><td id="vix">—</td></tr>
     <tr><td>T2104</td><td id="t2104">—</td></tr>
     <tr><td>T2117</td><td id="t2117">—</td></tr>
-    <tr><td>HH / LL</td><td id="hhll">—</td></tr>
+    <tr id="row-hhll"><td>HH / LL</td><td id="hhll">—</td></tr>
     <tr><td>20Bull / 20Bear</td><td id="bullbear">—</td></tr>
     <tr><td>STMU / STMD</td><td id="stmu_stmd">—</td></tr>
     <tr><td>Long NY</td><td id="longny">—</td></tr>
@@ -50,12 +50,17 @@
     // Apply state colors
     const iwvState = (d.states && d.states.iwv) ? d.states.iwv : "gray";
     const vixState = (d.states && d.states.vix) ? d.states.vix : "gray";
+    const hhllState = (d.states && d.states.hhll) ? d.states.hhll : "gray";
 
     document.getElementById("row-iwv").className = iwvState;
     document.getElementById("row-vix").className = vixState;
+
+    // HH/LL value + row color
+    document.getElementById("hhll").textContent = show(d.hh_ll);
+    document.getElementById("row-hhll").className = hhllState;
+
     document.getElementById("t2104").textContent = show(d.t2104);
     document.getElementById("t2117").textContent = show(d.t2117);
-    document.getElementById("hhll").textContent = show(d.hh_ll);
     document.getElementById("bullbear").textContent = show(d.bull20) + " / " + show(d.bear20);
     document.getElementById("stmu_stmd").textContent = show(d.stmu) + " / " + show(d.stmd);
     document.getElementById("longny").textContent = show(d.long_ny);
