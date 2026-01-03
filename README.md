@@ -273,12 +273,3 @@ If you ever feel tempted to:
 > “Does this improve clarity, or just add noise?”
 
 ---
-
-If you want, next we can:
-
-* Tighten this README further
-* Add a **“Mental Model” diagram**
-* Add a **commented architecture diagram**
-* Or write a **CONTRIBUTING.md** for future expansion
-
-You’re building this *the right way*.
