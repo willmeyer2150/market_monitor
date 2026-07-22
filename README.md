@@ -201,6 +201,47 @@ That’s intentional — this is meant to be a *situational awareness tool*.
 
 ---
 
+## Smallest Useful Portfolio Slice
+
+Keep the existing Flask route, rule logic, and single-page UI. Add the portfolio view to those same layers rather than introducing a database, brokerage connection, or background job.
+
+### Manual inputs
+
+Enter a small set of plain Python values in `app/config.py`:
+
+* Cash balance
+* Holdings: symbol, quantity, and per-share cost basis
+* Watchlist rows: symbol, current price, previous close, 50-day moving average, and 200-day moving average
+* One decision per holding: **hold**, **watch**, **add on weakness**, or **rebalance**
+
+A held symbol should reuse its watchlist price data so current price is entered only once.
+
+### Derived values
+
+Use direct calculations in the Flask app:
+
+* Position market value = quantity × current price
+* Daily change = (current price ÷ previous close − 1) × 100
+* Distance from each moving average = (current price ÷ moving average − 1) × 100
+* Position weight = position market value ÷ total account value
+* Cash percentage = cash ÷ total account value
+* Concentration warning when one position exceeds 25% of total account value
+
+If an input is missing or zero where division is required, display `—` rather than calculating a misleading value.
+
+### Single-page output
+
+Extend `app/templates/index.html` with four compact sections:
+
+1. **Portfolio positions:** symbol, quantity, cost basis, current price, market value, and weight.
+2. **Market monitor:** watchlist price, daily change, and distance from the 50-day and 200-day moving averages.
+3. **Decision panel:** one row per holding with its manually selected decision.
+4. **Allocation:** position weights, cash percentage, and any concentration warning.
+
+The existing market-environment indicators remain unchanged. The first slice is complete when editing `app/config.py` and refreshing the page updates all four sections without any external portfolio or quote integration.
+
+---
+
 ## 🧪 Error Handling & Safety
 
 Every data pull returns a `PullResult`:
