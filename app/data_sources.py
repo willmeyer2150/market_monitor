@@ -197,9 +197,36 @@ def _parse_stooq_daily_csv(text: str) -> list[Tuple[str, float]]:
 # Output:
 #   PullResult(value=<float>, error=None)
 #   PullResult(value=None, error="...") on failure
-def fetch_iwv_pct_change_stooq() -> PullResult:
+# def fetch_iwv_pct_change_stooq() -> PullResult:
+#     try:
+#         url = "https://stooq.com/q/d/l/?s=iwv.us&i=d"
+#         text = _get_text(url)
+
+#         rows = _parse_stooq_daily_csv(text)
+
+#         # Normalize ordering (oldest → newest)
+#         rows_sorted = sorted(rows, key=lambda x: x[0])
+
+#         if len(rows_sorted) < 2:
+#             return PullResult(None, "Not enough IWV data points.")
+
+#         _, prev_close = rows_sorted[-2]
+#         _, last_close = rows_sorted[-1]
+
+#         if prev_close == 0:
+#             return PullResult(None, "Previous close was 0 (invalid).")
+
+#         pct = (last_close / prev_close - 1.0) * 100.0
+#         return PullResult(round(pct, 2), None)
+
+#     except Exception as e:
+#         # Data problems should never crash the app
+#         return PullResult(None, f"IWV pull failed: {e}")
+
+
+def fetch_spy_pct_change_stooq() -> PullResult:
     try:
-        url = "https://stooq.com/q/d/l/?s=iwv.us&i=d"
+        url = "https://stooq.com/q/d/l/?s=spy.us&i=d"
         text = _get_text(url)
 
         rows = _parse_stooq_daily_csv(text)
@@ -208,7 +235,7 @@ def fetch_iwv_pct_change_stooq() -> PullResult:
         rows_sorted = sorted(rows, key=lambda x: x[0])
 
         if len(rows_sorted) < 2:
-            return PullResult(None, "Not enough IWV data points.")
+            return PullResult(None, "Not enough SPY data points.")
 
         _, prev_close = rows_sorted[-2]
         _, last_close = rows_sorted[-1]
@@ -221,7 +248,7 @@ def fetch_iwv_pct_change_stooq() -> PullResult:
 
     except Exception as e:
         # Data problems should never crash the app
-        return PullResult(None, f"IWV pull failed: {e}")
+        return PullResult(None, f"SPY pull failed: {e}")
 
 
 # -----------------------

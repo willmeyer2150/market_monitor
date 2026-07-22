@@ -93,7 +93,7 @@ fetch("/api/monitor")
 In `app.py`:
 
 * VIX (volatility)
-* IWV daily % change (broad market proxy)
+* SPY daily % change (broad market proxy)
 * HH / LL (new highs minus new lows)
 
 Each data source:
@@ -128,9 +128,9 @@ The API responds with:
 
 ## 📊 Indicators Explained
 
-### IWV % Change
+### SPY % Change
 
-* **What it is**: Daily percent change of the iShares Russell 3000 ETF
+* **What it is**: Daily percent change of the S&P 500
 * **Why it matters**: Broad U.S. market proxy
 
 **State logic:**
